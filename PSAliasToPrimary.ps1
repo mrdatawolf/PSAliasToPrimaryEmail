@@ -12,11 +12,16 @@ function Test-ModuleInstallation {
     if (!(Get-Module -ListAvailable -Name $ModuleName)) {
         Write-Host "The $ModuleName module is not installed. Installing..." -ForegroundColor Yellow
         Install-Module -Name $ModuleName -Force -Scope CurrentUser
-
+        
         return $false
     } else {
         Write-Host "Importing $ModuleName..." -ForegroundColor Green
-        Import-Module $ModuleName
+        try {
+            Import-Module $ModuleName -ErrorAction Stop
+        } catch {
+            Write-Host "Failed to import $ModuleName. Please ensure all dependencies are installed." -ForegroundColor Red
+            return $false
+        }
     }
 
     return $true
@@ -27,7 +32,7 @@ Remove-Module -Name ExchangeOnlineManagement -ErrorAction SilentlyContinue
 Remove-Module -Name Microsoft.Graph -ErrorAction SilentlyContinue
 
 # List of required modules
-$modules = @("ExchangeOnlineManagement", "Microsoft.Graph.Users", "Microsoft.Graph.Authentication")
+$modules = @("ExchangeOnlineManagement", "Microsoft.Graph.Users", "Microsoft.Graph.Authentication", "Az.Accounts", "Az.Resources")
 foreach ($module in $modules) {
     $result = Test-ModuleInstallation -ModuleName $module
     if (-not $result) {
