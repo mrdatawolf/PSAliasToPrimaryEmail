@@ -12,6 +12,7 @@ function Test-ModuleInstallation {
     param (
         [Parameter(Mandatory=$true)]
         [string]$ModuleName
+
     )
 
     if (!(Get-Module -ListAvailable -Name $ModuleName)) {
@@ -37,7 +38,7 @@ Remove-Module -Name ExchangeOnlineManagement -ErrorAction SilentlyContinue
 Remove-Module -Name Microsoft.Graph -ErrorAction SilentlyContinue
 
 # List of required modules
-$modules = @("ExchangeOnlineManagement", "Microsoft.Graph.Users", "Microsoft.Graph.Authentication", "Az.Accounts", "Az.Resources")
+$modules = @("ExchangeOnlineManagement", "Microsoft.Graph.Users", "Microsoft.Graph.Authentication")
 foreach ($module in $modules) {
     $result = Test-ModuleInstallation -ModuleName $module
     if (-not $result) {
