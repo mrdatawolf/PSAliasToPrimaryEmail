@@ -2,6 +2,11 @@ param (
     [string]$Admin
 )
 
+if ($PSVersionTable.PSVersion.Major -lt 7) {
+    Write-Error "This script requires PowerShell 7 or higher. Please upgrade your PowerShell version."
+    exit
+}
+
 # Function to test and install modules if necessary
 function Test-ModuleInstallation {
     param (
