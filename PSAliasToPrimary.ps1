@@ -53,12 +53,12 @@ function Connect-Exchange {
         [string]$Admin
     )
     $UserCredential = Get-Credential -UserName $Admin
-    Connect-ExchangeOnline -UserPrincipalName $UserCredential.UserName -Credential $UserCredential -ShowProgress $true
+    Connect-ExchangeOnline -UserPrincipalName $Admin -ShowProgress $true
 }
 
 # Function to connect to Microsoft Graph with device code authentication
 function Connect-Graph {
-    Connect-MgGraph -Scopes "User.ReadWrite.All", "Directory.ReadWrite.All" -UseDeviceAuthentication
+    Connect-MgGraph -Scopes "User.ReadWrite.All", "Directory.ReadWrite.All" -UseDeviceAuthentication -NoWelcome
 }
 
 # Function to update email addresses and SIP address
